@@ -29,7 +29,10 @@
             },
             removeElements : function(divPanel){
                 let deleting = divPanel.target.children[2];
-                deleting.remove(deleting.childNodes);
+                while(deleting.firstChild) {
+                    deleting.removeChild(deleting.firstChild);
+                  }
+                
                 console.log(deleting.children);
                 Horrocrux.DOMMAGIC.reloadImage(divPanel); 
             },
