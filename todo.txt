@@ -1,0 +1,36 @@
+
+
+/*
+
+** Por hacer
+
+*/
+
+Estilos:
+    -Buscar Escudos de Cada casa.
+    -Escoger colores para cada casa.
+    -Escoger fuentes.
+    -Hacer loaders.
+    -Diseñar Animaciones.
+/* ----------------------------------------------------- */
+    Lectura de Clases:{
+        .container
+            .container__panel
+                
+                    ._panel__search
+                        .__search__input
+                        .__search__submit
+                    .__panel__img
+                    .__panel__grids
+                        .__grids__img.
+                        .__grids__description.
+    }
+/* ----------------------------------------------------- */
+
+codigo:
+    -Implementar Eventos del mouse.
+    -Implementar ajax.
+    -conectar con API.
+    -Implementar buscador por cada casa.
+    -Implementar buscador general
+
