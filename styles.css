@@ -1,0 +1,56 @@
+
+/* reset basico */
+
+
+*{
+    padding: 0;
+    margin : 0;
+    
+}
+
+
+.container{
+    display:flex;
+    justify-content: space-between;
+    width:95vw;
+    margin : 0 auto;
+    height :95vh;
+
+}
+
+.container__panel{
+
+    position: relative;
+    display : flex;
+    flex-flow: column;
+    width:25vw;
+    outline: 5px solid rgba(22, 224, 164, 0.966);
+    transition : .2s;
+}
+.container__panel:hover{
+    width: 50vw;
+
+}
+.__panel__img {
+   
+    width : 20%;
+    height : 20%;
+    position: absolute;
+    top : 200;
+    left : 100;
+
+}
+.hideimg{
+   display: none;
+}
+.__panel__grids{
+    display : flex;
+    justify-content: space-around;
+    flex-flow: wrap;
+}
+.__grids__characters{
+    width: 10%;
+    height: 10%; 
+     border: 1px solid black;
+
+}
