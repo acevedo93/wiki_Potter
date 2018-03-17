@@ -48,9 +48,13 @@
     justify-content: space-around;
     flex-flow: wrap;
 }
-.__grids__characters{
-    width: 10%;
-    height: 10%; 
+.__grids__character{
+    display:flex;
      border: 1px solid black;
 
+}
+
+.__character__img img{
+    max-width: 100px;
+    max-height: 100px;
 }
