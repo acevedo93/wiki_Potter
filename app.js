@@ -4,118 +4,164 @@
  http://hp-api.herokuapp.com/api/characters/students
  http://hp-api.herokuapp.com/api/characters/staff
  http://hp-api.herokuapp.com/api/characters/house
- /* ajax conection */
+*/
 
-((docu,ajax) => {
+((docu) => {
     // API URL.
 
     Horrocrux = {
         API__module : {
             url :' http://hp-api.herokuapp.com/api/characters'
         },
+    
         DOMMAGIC : {
-            imageClick: function (){
+            imageClick(){
                 let selectImage = Array.prototype.slice.call( docu.getElementsByClassName("__panel__img"));
-                selectImage.forEach(function(element) {
-                    element.addEventListener('click', load);  
-                }, this);    
-            },
-            mouseOut: function (){
-                let selectPanel = Array.prototype.slice.call(docu.getElementsByClassName('container__panel'));
-                selectPanel.forEach(function(element){
-                    element.addEventListener('mouseleave',this.removeElements);
+                selectImage.forEach((element)=>{
+                    element.addEventListener('click', (e)=>{
+                            let fatherId = e.target.parentNode.id
+                            Horrocrux.DOMMAGIC.positionMoveImage(fatherId)
+                            Horrocrux.DOMMAGIC.showSearch(fatherId)
+                            let ajax = new XMLHttpRequest();
+                           ajax.open ('GET',Horrocrux .API__module.url,true)
+                           debugger;
+                           ajax.addEventListener('load',(e) =>  this.charactersToScreen(fatherId))
+                           ajax.send(); 
+                           
+                        }) 
 
                 },this)
             },
-            removeElements : function(divPanel){
-                let deleting = divPanel.target.children[2];
-                while(deleting.firstChild) {
-                    deleting.removeChild(deleting.firstChild);
-                  }
+            mouseOut(){
                 
-                console.log(deleting.children);
-                Horrocrux.DOMMAGIC.reloadImage(divPanel); 
+                let selectPanel = Array.prototype.slice.call(docu.getElementsByClassName('container__panel'))
+                selectPanel.forEach(function(element){
+                    //escucha el evento del mouse
+                    
+                    element.addEventListener('mouseleave',Horrocrux.DOMMAGIC.removeElements)
+                },this)
+            },
+            removeElements(divPanel){
+                //recive el panel del que el mouse salio.
+                let deleting = divPanel.target.children[2]
+                //elimina los personajes 1 a 1
+                while(deleting.firstChild) { 
+                    deleting.removeChild(deleting.firstChild)
+                }
+                
+                Horrocrux.DOMMAGIC.hideSearch(divPanel.target.id)
+                Horrocrux.DOMMAGIC.positionOriginalImage(divPanel.target.id)
+                
+                
+                
             },
            
-            removeImage : function (element){
-                let tag = docu.getElementById(element);
+            positionMoveImage(element){
+                let tag = docu.getElementById(element)
                 let tagimg = tag.children[1]
-                return (!tagimg.classList.contains('hideimg')) 
-                        ? tagimg.classList.add('hideimg')
-                        : tagimg.classList.remove('hideimg');
+                
+                 if(tagimg.classList.contains('img_animation_entrada')) {
+                     tagimg.classList.remove('img_animation_entrada') 
+                 }  
+                 tagimg.classList.add('img_animation_salida') 
+                 
+                  
             },
-            reloadImage : function ( element){
-                let loadImg =  element.target.children[1];
-                return loadImg.classList.remove('hideimg');
+            positionOriginalImage(element){
+                
+                let loadImg =  docu.getElementById(element).children[1]
+
+                if(loadImg.classList.contains('img_animation_salida')){
+                    loadImg.classList.remove('img_animation_salida')
+                    loadImg.classList.add('img_animation_entrada')
+                }
+                  
+                            
             },
-            charactersToScreen :  function (infoApiPotter){
-                containerHouse = docu.getElementById(infoApiPotter[0].house).children[2];
+            showSearch(element){
+                //recive el elemento padre que se le dio clicl
+                 let tagSearch = docu.getElementById(element).children[0]
+                    tagSearch.classList.remove('__hide__form') 
+                    
+            },  
+            hideSearch(element){
+                //recive el elemento del que sale el mouse 
+                let tagSearch = docu.getElementById(element).children[0]
+                
+                tagSearch.classList.add('__hide__form')
+                
+            },
+                
+            charactersToScreen(infoApiPotter){
+                containerHouse = docu.getElementById(infoApiPotter[0].house).children[2]
                 infoApiPotter.map(characters => {
-                     // todos elementos creados se identaron simil a  el html creado,  
-                    let new_Section_Container = docu.createElement('section');
+                    //creacion de todos los personajes en la pantalla
+                    let new_Section_Container = docu.createElement('section')
                     new_Section_Container.classList.add('__grids__character')
-                    let new_Article_Image = docu.createElement('article');
-                    let new_Image_Tag = docu.createElement('img');
-                    new_Image_Tag.src = characters.image;
-                    new_Article_Image.insertAdjacentElement('beforeend',new_Image_Tag);
-                    new_Article_Image.classList.add('__character__img');
-                    new_Section_Container.insertAdjacentElement('beforeend',new_Article_Image);
-                    let new_Article_Description = docu.createElement('article');
-                    let new_p_name = docu.createElement('p');
-                    let new_p_gender = docu.createElement('p');
-                    let new_p_house = docu.createElement('p');
-                    new_p_name.textContent = characters.name;
-                    new_p_gender.textContent = characters.gender;
-                    new_p_house.textContent = characters.house;
-                    new_Article_Description.insertAdjacentElement('beforeend',new_p_name);
-                    new_Article_Description.insertAdjacentElement('beforeend',new_p_gender);
-                    new_Article_Description.insertAdjacentElement('beforeend',new_p_house);
+                    let new_Article_Image = docu.createElement('article')
+                    let new_Image_Tag = docu.createElement('img')
+                    new_Image_Tag.src = characters.image
+                    new_Article_Image.insertAdjacentElement('beforeend',new_Image_Tag)
+                    new_Article_Image.classList.add('__character__img')
+                    new_Section_Container.insertAdjacentElement('beforeend',new_Article_Image)
+                    let new_Article_Description = docu.createElement('article')
+                    let new_p_name = docu.createElement('p')
+                    let new_p_gender = docu.createElement('p')
+                    let new_p_house = docu.createElement('p')
+                    new_p_name.textContent = characters.name
+                    new_p_gender.textContent = characters.gender
+                    new_p_house.textContent = characters.house
+                    new_Article_Description.insertAdjacentElement('beforeend',new_p_name)
+                    new_Article_Description.insertAdjacentElement('beforeend',new_p_gender)
+                    new_Article_Description.insertAdjacentElement('beforeend',new_p_house)
                     new_Article_Description.classList.add('__character__description')
                     new_Section_Container.insertAdjacentElement('beforeend',new_Article_Description)  
                     // creacion en el container principal del html
-                    debugger;
-/* Error-->*/       containerHouse.insertAdjacentElement('beforeend',new_Section_Container);
+                    
+                        containerHouse.insertAdjacentElement('beforeend',new_Section_Container)
+                    
+    
                 }) 
             }
         
         }
     }   
     //funciones asociadas al ImageClick desde aca se llaman las otras funciones de dommagic.
-    function load (clickInfo){
-        let fatherId = clickInfo.target.parentNode.id;
-         // llama a la funcion para que cuando cargue la info elimine la imagen
-        Horrocrux.DOMMAGIC.removeImage(fatherId);
-        ajaxCall(fatherId); 
-    }
-
-    function ajaxCall(fatherId){
-        ajax.open ('GET',Horrocrux .API__module.url,true);
-        ajax.addEventListener('load',() => search(fatherId));
-        ajax.send(); 
-    }
-
+    
+       
+       
+            
+    
+/*
     function search (panelHouse){
-        if( ajax.status >= 200 && ajax.status < 400  ){
-            let infoApiPotter = JSON.parse(ajax.responseText); 
-            infoApiPotter = infoApiPotter.filter((characters)=>(characters.house == panelHouse));
-            Horrocrux.DOMMAGIC.charactersToScreen(infoApiPotter);
-        }
-        else console.log(ajax.status);      
+            let infoApiPotter = JSON.parse(ajax.responseText)
+            
+            infoApiPotter = infoApiPotter.filter((characters)=>(characters.house === panelHouse))
+            
+            //Horrocrux.DOMMAGIC.charactersToScreen(infoApiPotter) 
     }
-
+*/
    
 
 
-     /**
-     * Retorno de clases publicas 
-     */
+     
+      //Retorno de clases publicas 
+     
     return{
+
         imageclick : Horrocrux.DOMMAGIC.imageClick(),
         mouseOut : Horrocrux.DOMMAGIC.mouseOut()
         
       }
         
+
     
+
+    
+     
     
     //------------------------------------------
- })(document,new XMLHttpRequest());
+ })(document)
+
+
+ 
