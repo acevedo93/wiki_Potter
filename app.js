@@ -20,24 +20,25 @@
                 selectImage.forEach((element)=>{
                     element.addEventListener('click', (e)=>{
                             let fatherId = e.target.parentNode.id
-                            Horrocrux.DOMMAGIC.positionMoveImage(fatherId)
-                            Horrocrux.DOMMAGIC.showSearch(fatherId)
                             let ajax = new XMLHttpRequest();
                            ajax.open ('GET',Horrocrux .API__module.url,true)
-                           debugger;
-                           ajax.addEventListener('load',(e) =>  this.charactersToScreen(fatherId))
+                           ajax.addEventListener('load',(e) =>  Horrocrux.DOMMAGIC.search(fatherId,ajax))
                            ajax.send(); 
-                           
+                           Horrocrux.DOMMAGIC.positionMoveImage(fatherId)
+                           Horrocrux.DOMMAGIC.showSearch(fatherId)
                         }) 
-
                 },this)
+            },
+            search(panelHouse,ajax){
+                let infoApiPotter = JSON.parse(ajax.responseText)
+                infoApiPotter = infoApiPotter.filter((characters)=>(characters.house === panelHouse))
+                Horrocrux.DOMMAGIC.charactersToScreen(infoApiPotter) 
             },
             mouseOut(){
                 
                 let selectPanel = Array.prototype.slice.call(docu.getElementsByClassName('container__panel'))
                 selectPanel.forEach(function(element){
                     //escucha el evento del mouse
-                    
                     element.addEventListener('mouseleave',Horrocrux.DOMMAGIC.removeElements)
                 },this)
             },
@@ -50,33 +51,23 @@
                 }
                 
                 Horrocrux.DOMMAGIC.hideSearch(divPanel.target.id)
-                Horrocrux.DOMMAGIC.positionOriginalImage(divPanel.target.id)
-                
-                
-                
+                Horrocrux.DOMMAGIC.positionOriginalImage(divPanel.target.id) 
             },
            
             positionMoveImage(element){
                 let tag = docu.getElementById(element)
                 let tagimg = tag.children[1]
-                
                  if(tagimg.classList.contains('img_animation_entrada')) {
                      tagimg.classList.remove('img_animation_entrada') 
                  }  
-                 tagimg.classList.add('img_animation_salida') 
-                 
-                  
+                 tagimg.classList.add('img_animation_salida')  
             },
             positionOriginalImage(element){
-                
                 let loadImg =  docu.getElementById(element).children[1]
-
                 if(loadImg.classList.contains('img_animation_salida')){
                     loadImg.classList.remove('img_animation_salida')
                     loadImg.classList.add('img_animation_entrada')
-                }
-                  
-                            
+                }            
             },
             showSearch(element){
                 //recive el elemento padre que se le dio clicl
@@ -87,11 +78,8 @@
             hideSearch(element){
                 //recive el elemento del que sale el mouse 
                 let tagSearch = docu.getElementById(element).children[0]
-                
-                tagSearch.classList.add('__hide__form')
-                
-            },
-                
+                tagSearch.classList.add('__hide__form')   
+            },   
             charactersToScreen(infoApiPotter){
                 containerHouse = docu.getElementById(infoApiPotter[0].house).children[2]
                 infoApiPotter.map(characters => {
@@ -117,49 +105,21 @@
                     new_Article_Description.classList.add('__character__description')
                     new_Section_Container.insertAdjacentElement('beforeend',new_Article_Description)  
                     // creacion en el container principal del html
-                    
                         containerHouse.insertAdjacentElement('beforeend',new_Section_Container)
-                    
-    
                 }) 
             }
         
         }
     }   
-    //funciones asociadas al ImageClick desde aca se llaman las otras funciones de dommagic.
+  
     
        
-       
-            
-    
-/*
-    function search (panelHouse){
-            let infoApiPotter = JSON.parse(ajax.responseText)
-            
-            infoApiPotter = infoApiPotter.filter((characters)=>(characters.house === panelHouse))
-            
-            //Horrocrux.DOMMAGIC.charactersToScreen(infoApiPotter) 
-    }
-*/
-   
 
-
-     
-      //Retorno de clases publicas 
-     
+      //Retorno de clases publicas
     return{
-
         imageclick : Horrocrux.DOMMAGIC.imageClick(),
         mouseOut : Horrocrux.DOMMAGIC.mouseOut()
-        
       }
-        
-
-    
-
-    
-     
-    
     //------------------------------------------
  })(document)
 
