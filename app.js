@@ -5,7 +5,6 @@
  http://hp-api.herokuapp.com/api/characters/staff
  http://hp-api.herokuapp.com/api/characters/house
 */
-
 //$2a$10$ezk7lH4S3WhjC1Eq2OTOluo/Aa8TEq7EFwRoOtpXjZcisTxLzUdWy
 //https://www.potterapi.com/v1/
 
@@ -36,14 +35,11 @@
             SearchRadio(){
 
                 let selectCheck =Array.prototype.slice.call( docu.getElementsByName('SEARCH'));
-                console.log(selectCheck);
                 selectCheck.forEach((element)=>{
                     element.addEventListener('click',(e) =>{
                         //mira el padre el elemento padre del form que trae el id de la casa.
                         //para poder comparar con los resultados 
                         let house =e.target.parentNode.parentNode.id;
-                        
-                        console.log(element.value);
                         let ajaxSearch = new XMLHttpRequest();
                         ajaxSearch.open('GET','http://hp-api.herokuapp.com/api/characters/'+element.value,true);
                         ajaxSearch.addEventListener('load',(event) => {
@@ -54,7 +50,6 @@
                           while(itemsTodelete.firstChild){
                               itemsTodelete.removeChild(itemsTodelete.firstChild);
                           }
-                         
                          //while(itemsTodelete.firstChild) { 
                          //   itemsTodelete.removeChild(itemsTodelete.firstChild)
                         //}
@@ -62,7 +57,6 @@
                         });
                         ajaxSearch.send();
                     });
-
                 })
             },
             search(panelHouse,ajax){
@@ -80,7 +74,6 @@
             removeElements(divPanel){
                 //recive el panel del que el mouse salio.
                 let deleting = divPanel.target.children[2]
-                
                 //elimina los personajes 1 a 1
                 while(deleting.firstChild) { 
                     deleting.removeChild(deleting.firstChild)
@@ -129,9 +122,9 @@
                     let new_p_name = docu.createElement('p')
                     let new_p_gender = docu.createElement('p')
                     let new_p_house = docu.createElement('p')
-                    new_p_name.textContent = characters.name
-                    new_p_gender.textContent = characters.gender
-                    new_p_house.textContent = characters.house
+                    new_p_name.textContent =  'name : ' + characters.name
+                    new_p_gender.textContent = 'gender : ' + characters.gender
+                    new_p_house.textContent ='house : ' +  characters.house
                     new_Article_Description.insertAdjacentElement('beforeend',new_p_name)
                     new_Article_Description.insertAdjacentElement('beforeend',new_p_gender)
                     new_Article_Description.insertAdjacentElement('beforeend',new_p_house)
@@ -144,10 +137,7 @@
         }
     }   
   
-    
-       
-
-      //Retorno de clases publicas
+      //---Retorno de clases publicas-----------
     return{
         imageclick : Horrocrux.DOMMAGIC.imageClick(),
         mouseOut : Horrocrux.DOMMAGIC.mouseOut(),
