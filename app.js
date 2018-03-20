@@ -6,28 +6,64 @@
  http://hp-api.herokuapp.com/api/characters/house
 */
 
+//$2a$10$ezk7lH4S3WhjC1Eq2OTOluo/Aa8TEq7EFwRoOtpXjZcisTxLzUdWy
+//https://www.potterapi.com/v1/
+
 ((docu) => {
     // API URL.
 
     Horrocrux = {
         API__module : {
-            url :' http://hp-api.herokuapp.com/api/characters'
+            url :'http://hp-api.herokuapp.com/api/characters',
+            key : '$2a$10$ezk7lH4S3WhjC1Eq2OTOluo/Aa8TEq7EFwRoOtpXjZcisTxLzUdWy'
         },
     
         DOMMAGIC : {
             imageClick(){
                 let selectImage = Array.prototype.slice.call( docu.getElementsByClassName("__panel__img"));
-                selectImage.forEach((element)=>{
+                selectImage.forEach((element) => {
                     element.addEventListener('click', (e)=>{
                             let fatherId = e.target.parentNode.id
                             let ajax = new XMLHttpRequest();
-                           ajax.open ('GET',Horrocrux .API__module.url,true)
-                           ajax.addEventListener('load',(e) =>  Horrocrux.DOMMAGIC.search(fatherId,ajax))
+                           ajax.open ('GET',Horrocrux .API__module.url ,true)
+                           ajax.addEventListener('load',(e) => Horrocrux.DOMMAGIC.search(fatherId,ajax))
                            ajax.send(); 
                            Horrocrux.DOMMAGIC.positionMoveImage(fatherId)
                            Horrocrux.DOMMAGIC.showSearch(fatherId)
                         }) 
                 },this)
+            },
+            SearchRadio(){
+
+                let selectCheck =Array.prototype.slice.call( docu.getElementsByName('SEARCH'));
+                console.log(selectCheck);
+                selectCheck.forEach((element)=>{
+                    element.addEventListener('click',(e) =>{
+                        //mira el padre el elemento padre del form que trae el id de la casa.
+                        //para poder comparar con los resultados 
+                        let house =e.target.parentNode.parentNode.id;
+                        
+                        console.log(element.value);
+                        let ajaxSearch = new XMLHttpRequest();
+                        ajaxSearch.open('GET','http://hp-api.herokuapp.com/api/characters/'+element.value,true);
+                        ajaxSearch.addEventListener('load',(event) => {
+                         let ElementsSelected = JSON.parse(ajaxSearch.responseText);
+                         ElementsSelected = ElementsSelected.filter((elements) =>elements.house === house)
+                         let  selectPanel = Array.prototype.slice.call(docu.getElementsByClassName('container__panel'))
+                         let itemsTodelete = docu.getElementById(house).children[2];
+                          while(itemsTodelete.firstChild){
+                              itemsTodelete.removeChild(itemsTodelete.firstChild);
+                          }
+                         
+                         //while(itemsTodelete.firstChild) { 
+                         //   itemsTodelete.removeChild(itemsTodelete.firstChild)
+                        //}
+                         Horrocrux.DOMMAGIC.charactersToScreen(ElementsSelected);
+                        });
+                        ajaxSearch.send();
+                    });
+
+                })
             },
             search(panelHouse,ajax){
                 let infoApiPotter = JSON.parse(ajax.responseText)
@@ -35,7 +71,6 @@
                 Horrocrux.DOMMAGIC.charactersToScreen(infoApiPotter) 
             },
             mouseOut(){
-                
                 let selectPanel = Array.prototype.slice.call(docu.getElementsByClassName('container__panel'))
                 selectPanel.forEach(function(element){
                     //escucha el evento del mouse
@@ -45,15 +80,14 @@
             removeElements(divPanel){
                 //recive el panel del que el mouse salio.
                 let deleting = divPanel.target.children[2]
+                
                 //elimina los personajes 1 a 1
                 while(deleting.firstChild) { 
                     deleting.removeChild(deleting.firstChild)
                 }
-                
                 Horrocrux.DOMMAGIC.hideSearch(divPanel.target.id)
                 Horrocrux.DOMMAGIC.positionOriginalImage(divPanel.target.id) 
             },
-           
             positionMoveImage(element){
                 let tag = docu.getElementById(element)
                 let tagimg = tag.children[1]
@@ -72,8 +106,7 @@
             showSearch(element){
                 //recive el elemento padre que se le dio clicl
                  let tagSearch = docu.getElementById(element).children[0]
-                    tagSearch.classList.remove('__hide__form') 
-                    
+                    tagSearch.classList.remove('__hide__form')       
             },  
             hideSearch(element){
                 //recive el elemento del que sale el mouse 
@@ -108,7 +141,6 @@
                         containerHouse.insertAdjacentElement('beforeend',new_Section_Container)
                 }) 
             }
-        
         }
     }   
   
@@ -118,7 +150,8 @@
       //Retorno de clases publicas
     return{
         imageclick : Horrocrux.DOMMAGIC.imageClick(),
-        mouseOut : Horrocrux.DOMMAGIC.mouseOut()
+        mouseOut : Horrocrux.DOMMAGIC.mouseOut(),
+        SearchRadio : Horrocrux.DOMMAGIC.SearchRadio()
       }
     //------------------------------------------
  })(document)
