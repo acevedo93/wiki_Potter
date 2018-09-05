@@ -4,45 +4,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Amatic+SC" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+    
     <title>harry-potter-Api</title>
 </head>
 <body>
+    <nav class="navigator">
+        <ul >
+            <li class = "__navigator__title" >Harry potter Houses</li>
+            <div class="_navigator__subitems">
+                <li>Griffindor</li>
+                <li>Hufflepuff</li>
+                <li>Ravenclaw</li>
+                <li>Slytherin</li>
+            </div>
+            
+        </ul>
+    </nav>
     <div id="container-main" clas="container__main" >
         <section id="container-panels" class="container" >
             <article id="Gryffindor" class="container__panel">
-                <form class="__panel__search">
-                    <input type="text">
-                    <input type="submit">
+                <form class="__panel__search __hide__form" method="get">
+                    <label for="staff">Staff</label>
+                    <input type ="radio" name="SEARCH" value="staff">
+                    <label for="students">Students</label>
+                    <input type ="radio" name="SEARCH" value="students">
                 </form>
-                <img   class="__panel__img" src='./assets/606px-Hogwarts.svg.png' alt="">
+                    <img  class="__panel__img"  src='./assets/606px-Hogwarts.svg.png' alt="">
                 <div class="__panel__grids">
 
                 </div>
             </article>    
-            <article id="Hufflepuff" class="container__panel">
-                <form>
-                    <input type="text">
-                    <input type="submit">
+            <article id="Hufflepuff" class="container__panel" method="get">
+                <form class="__panel__search __hide__form">
+                        <label for="staff">Staff</label>
+                        <input type ="radio" name="SEARCH" value="staff">
+                        <label for="students">Students</label>
+                        <input type ="radio" name="SEARCH" value="students">
                 </form>
                 <img class="__panel__img"  src='./assets/606px-Hogwarts.svg.png' alt="">
                 <div class="__panel__grids">
 
                 </div>
             </article>
-            <article id="Ravenclaw" class="container__panel">
-                <form>
-                    <input type="text">
-                    <input type="submit">
+            <article id="Ravenclaw" class="container__panel" method="get">
+                <form class="__panel__search __hide__form">
+                        <label for="staff">Staff</label>
+                        <input type ="radio" name="SEARCH" value="staff">
+                        <label for="students">Students</label>
+                        <input type ="radio" name="SEARCH" value="students">
                 </form>
                 <img class="__panel__img"  src='./assets/606px-Hogwarts.svg.png' alt="">
                 <div class="__panel__grids">
 
                 </div>
             </article>
-            <article id="Slytherin" class="container__panel">
-                <form>
-                    <input type="text">
-                    <input type="submit">
+            <article id="Slytherin" class="container__panel" method="get">
+                <form class="__panel__search __hide__form">
+                        <label for="staff">Staff</label>
+                        <input type ="radio" name="SEARCH" value="staff">
+                        <label for="students">Students</label>
+                        <input type ="radio" name="SEARCH" value="students">
                 </form>
                 <img class="__panel__img"  src='./assets/606px-Hogwarts.svg.png' alt="">
                 <div class="__panel__grids">
@@ -51,10 +74,15 @@
 
             </article>
         </section>
-        <footer>
-            <p>Hecho por David Acevedo (agregado en test).</p>
+       
+        <footer class="__footer__">
+            <p>Hecho por Daj.</p>
         </footer>
     </div>
     <script src= "app.js"></script>
+    <script >
+
+    
+    </script>
 </body>
 </html>

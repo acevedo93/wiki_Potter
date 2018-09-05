@@ -22,9 +22,10 @@ Estilos:
                         .__search__submit
                     .__panel__img
                     .__panel__grids
-                        .__grids__img.
-                        .__grids__description.
-    }
+                        .__grids__character
+                            .__character__img
+                            .__character__description
+        }
 /* ----------------------------------------------------- */
 
 codigo:
